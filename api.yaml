@@ -1,0 +1,94 @@
+openapi: 3.0.4
+info:
+  title: Blog Post API (Dev Mentorship)
+  description: Content Management System for a Blog Post
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /:
+    get:
+      summary: Serve Blog homepage
+      responses:
+        '200':
+          description: Returns to index.html file
+
+  /api/posts:
+    get:
+      summary: Get all posts
+      responses:
+        '200':
+          description: List of Posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+
+    post:
+      summary: Create new post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewPost"
+      responses:
+        '201':
+          description: Created new Post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        '400':
+          description: Missing required fields
+
+    /api/posts/{id}:
+      get:
+        summary: Get post by ID
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: integer
+        responses:
+          '200':
+            description: Post found
+            content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+          '404':
+            description: Post not found
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        author:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+  NewPost:
+  type: object
+  properties:
+    id:
+      type: integer
+    title:
+      type: string
+    author:
+      type: string
+  required:
+    - id
+    - title
+    - author

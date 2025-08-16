@@ -2,6 +2,10 @@ import { create } from 'domain';
 import express from 'express';
 import Path from "path"
 import { fileURLToPath } from 'url';
+import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs';
+
+
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +14,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = Path.dirname(__filename)
 
 app.use(express.json());
+
+const swaggerDocument = YAML.load(Path.join(__dirname, 'api.yaml'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 let posts = [
     {

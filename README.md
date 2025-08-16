@@ -33,4 +33,7 @@ GET /api/posts/:id
 POST /api/comments
 GET /api/comments/:id
 DELETE /api/comments/:id 
+```
+
+![App Screenshot](screenshot.png)
 
